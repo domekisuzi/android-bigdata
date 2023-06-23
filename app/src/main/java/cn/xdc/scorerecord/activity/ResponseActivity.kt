@@ -58,7 +58,6 @@ class ResponseActivity:BaseActivity() {
         feedback = intent.getSerializableExtra("feedback") as Feedback
         initView()
         initEvent()
-
         RequestUtil.operate("查看反馈详情")
     }
 

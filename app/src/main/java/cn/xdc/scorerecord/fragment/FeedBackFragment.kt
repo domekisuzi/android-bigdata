@@ -108,7 +108,6 @@ class FeedBackFragment(private val studentName: String) : Fragment() {
             feedBackDialog.show()
         }
 
-
         //获取所有人的feedback
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager

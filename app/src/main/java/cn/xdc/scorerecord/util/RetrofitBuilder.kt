@@ -10,10 +10,11 @@ import kotlin.concurrent.thread
 object RetrofitBuilder {
 
 //    本地版和服务器版本
-    private const val BASE_URL = "http://domekisuzi.fun:7777"
-    private const val LOCAL_BASE_URL = "http://10.0.2.2:7777"
+//    private const val BASE_URL = "http://domekisuzi.fun:7776"
+    private const val LOCAL_BASE_URL = "http://10.0.2.2:7776"
     private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(LOCAL_BASE_URL)
+//        .baseUrl(LOCAL_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

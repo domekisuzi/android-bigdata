@@ -12,6 +12,7 @@ import cn.xdc.scorerecord.adapter.FragmentAdapter
 import cn.xdc.scorerecord.bean.Student
 import cn.xdc.scorerecord.fragment.CheckFragment
 import cn.xdc.scorerecord.fragment.FeedBackFragment
+import cn.xdc.scorerecord.fragment.FunctionFragment
 import cn.xdc.scorerecord.util.getGlobalName
 import cn.xdc.scorerecord.util.showToast
 import me.majiajie.pagerbottomtabstrip.MaterialMode
@@ -30,6 +31,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         getWindow().getDecorView().setSystemUiVisibility(5894);
         setContentView(R.layout.activity_main)
+
         try {
             studentName = intent.getStringExtra("student_name").toString()
         }catch (e:Exception){
@@ -44,6 +46,8 @@ class MainActivity : BaseActivity() {
     override fun initEvent() {
     }
 
+//    在这里加fragment
+
     override fun initView() {
         tab = findViewById(R.id.tab)
         val controller = tab.material()
@@ -53,13 +57,15 @@ class MainActivity : BaseActivity() {
 //            .addItem(R.drawable.ic_news_black_24dp, "Newsstand", testColors[3])
             .addItem(R.drawable.ic___result,"我的成绩",testColors[1])
             .addItem(R.drawable.ic______feedback,"反馈",testColors[2])
+            .addItem(R.drawable.__function,"功能",testColors[3])
             .setDefaultColor(0x89FFFFFF.toInt())//未选中状态的颜色
             .setMode(MaterialMode.CHANGE_BACKGROUND_COLOR or MaterialMode.HIDE_TEXT)//这里可以设置样式模式，总共可以组合出4种效果
             .build()
         viewPager = findViewById(R.id.viewpager)
         //如果studentname被初始化了
         if(::studentName.isInitialized) {
-            val fragments = mutableListOf<Fragment>(CheckFragment(studentName), FeedBackFragment(studentName))
+
+            val fragments = mutableListOf<Fragment>(CheckFragment(studentName), FeedBackFragment(studentName),FunctionFragment())
             val adapter = FragmentAdapter(fragments, supportFragmentManager)
             viewPager.adapter = adapter
             controller.setupWithViewPager(viewPager)
@@ -67,7 +73,6 @@ class MainActivity : BaseActivity() {
                 override fun onSelected(index: Int, old: Int) {
                     Log.e("main", "index: " + index + "old: " + old)
                 }
-
                 override fun onRepeat(index: Int) {
                     Log.e("main", "repeat: $index")
                 }

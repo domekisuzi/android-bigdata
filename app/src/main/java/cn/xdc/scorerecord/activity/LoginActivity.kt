@@ -14,6 +14,7 @@ import cn.xdc.scorerecord.bean.JSONObject
 import cn.xdc.scorerecord.util.RequestUtil.operate
 import cn.xdc.scorerecord.util.RetrofitBuilder
 import cn.xdc.scorerecord.util.Service
+import cn.xdc.scorerecord.util.log
 import cn.xdc.scorerecord.util.setGlobalName
 
 import cn.xdc.scorerecord.view.AnimationButton
@@ -42,8 +43,6 @@ class LoginActivity : BaseActivity() {
     private val api = RetrofitBuilder.create(Service::class.java)
     private lateinit var studentName:String
 
-
-
     //活动 ，  页面跳转，说明开启了新的活动    他们是独立的
     //在活动之间传递我们需要的数据
     /**
@@ -65,7 +64,6 @@ class LoginActivity : BaseActivity() {
                     startActivity(intent)
                     finish()
                 }
-
                 START_ADMIN_ACTIVITY -> {
                     val intent = Intent(this@LoginActivity, AdminActivity::class.java)
                     setGlobalName("管理员")
@@ -81,13 +79,12 @@ class LoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //填充整个屏幕
-
         getWindow().getDecorView().setSystemUiVisibility(5894);
         setContentView(R.layout.activity_login)
         initView()
         initEvent()
-    }
 
+    }
     override fun initView() {
         sureButton = findViewById(R.id.sure)
         nameEt = findViewById(R.id.name_et)
@@ -100,8 +97,13 @@ class LoginActivity : BaseActivity() {
         val magic = prefs.getString("magic", "")
         nameEt.setText(name)
         passwdEt.setText(magic)
+
+
+
     }
+
 //张丹
+
     override fun initEvent() {
         val editor = getSharedPreferences("name",Context.MODE_PRIVATE).edit()
 
@@ -119,7 +121,7 @@ class LoginActivity : BaseActivity() {
 //                        startActivity(intent)
 //                    }
 //                }
-//
+
                 handler.sendMessage(message)
             }
 
@@ -130,14 +132,13 @@ class LoginActivity : BaseActivity() {
                     sureButton.start()
                     message.what = START_ADMIN_ACTIVITY
                     Toast.makeText(this@LoginActivity, "登录成功", Toast.LENGTH_LONG).show()
-
                 } else {
                     if (passwdEt.text.toString().isNotEmpty()) {
-                        passwdTextLayout.error = "你的，魔法似乎不正确！"
+                        passwdTextLayout.error = "你的魔法似乎不正确！"
                     }
                     else{
-                        studentName = nameEt.text.toString().trim()
 
+                        studentName = nameEt.text.toString().trim()
                         editor.putString("name",studentName)
                         //别忘了加这个apply
                         editor.apply()
@@ -145,12 +146,15 @@ class LoginActivity : BaseActivity() {
                             override fun onResponse(
                                 call: Call<JSONObject>,
                                 response: Response<JSONObject>
-                            ) {
+                            )
+                            {
                                 sureButton.start()
                                 message.what = START_STUDENT_ACTIVITY
                             }
+
                             override fun onFailure(call: Call<JSONObject>, t: Throwable) {
-                                Toast.makeText(this@LoginActivity, "请求失败！", Toast.LENGTH_LONG).show()
+                                val str =  "请求失败！用户名错误或者服务异常！"
+                                Toast.makeText(this@LoginActivity,str, Toast.LENGTH_LONG).show()
                             }
 
                         })
